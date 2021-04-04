@@ -21,4 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
                   path('', include('blog.urls')),
                   path('admin/', admin.site.urls),
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = 'Django3pm Project'
+admin.site.site_title = 'Django3pm'
