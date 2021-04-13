@@ -1,0 +1,30 @@
+{% extends 'master/master.html' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="col-md-12">
+            <div class="row">
+                {% for blog in blogData %}
+                    <div class="col-md-6">
+                        <h1><a href="{% url 'blog_details' blog.slug %}">{{ blog.title }}</a></h1>
+                        <img src="{{ blog.image.url }}" class="img-fluid" alt="">
+                        <p>
+                            {{ blog.description |safe |slice:'200' }}
+                        </p>
+                    </div>
+
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ categoryData.cat_name }}</h1>
+                    <p>
+                        {{ categoryData.description|safe }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}

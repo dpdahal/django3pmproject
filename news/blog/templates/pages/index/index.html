@@ -5,6 +5,7 @@
 {% block content %}
 
     <!-- ======= Hero Section ======= -->
+    <!-- ======= Hero Section ======= -->
     <section id="hero">
         <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
@@ -12,20 +13,38 @@
 
                 {% for slider in sliderData %}
 
-                    <!-- Slide 1 -->
-                    <div class="carousel-item active" style="background-image: url({{ slider.image.url }});">
-                        <div class="carousel-container">
-                            <div class="carousel-content animate__animated animate__fadeInUp">
-                                <h2>Welcome to <span>{{ slider.title }}</span></h2>
-                                <p>{{ slider.description|safe|slice:'100' }}</p>
-                                <div class="text-center"><a href="slider-details/{{ slider.slug }}"
-                                                            class="btn-get-started">Read More</a></div>
+                    {% if slider.is_first == 'y' %}
+
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active" style="background-image: url({{ slider.image.url }});">
+                            <div class="carousel-container">
+                                <div class="carousel-content animate__animated animate__fadeInUp">
+                                    <h2>Welcome to <span>{{ slider.title }}</span></h2>
+                                    <p>
+                                        {{ slider.description |safe | slice:'100' }}
+                                    </p>
+                                    <div class="text-center"><a href="{% url 'slider-details' slider.slug %}" class="btn-get-started">Read More</a></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    {% else %}
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-item" style="background-image: url({{ slider.image.url }});">
+                            <div class="carousel-container">
+                                <div class="carousel-content animate__animated animate__fadeInUp">
+                                    <h2>{{ slider.title }}</h2>
+                                    <p>
+                                        {{ slider.description |safe | slice:'100' }}
+                                    </p>
+                                    <div class="text-center"><a href="{% url 'slider-details' slider.slug %}" class="btn-get-started">Read More</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
 
                 {% endfor %}
-
 
             </div>
 

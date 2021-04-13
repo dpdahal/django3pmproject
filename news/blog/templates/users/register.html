@@ -1,0 +1,28 @@
+{% extends 'master/master.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>User Register </h1>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+
+                {% endif %}
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ userRegisterForm.as_p }}
+                    <div class="form-group">
+                        <button class="btn btn-success">Register</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}
