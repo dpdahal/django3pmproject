@@ -3,14 +3,51 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+
+                    {% endfor %}
+
+                {% endif %}
                 <h1>Welcome {{ user.get_username }} </h1>
+
+
+                <hr>
 
                 <form action="{% url 'user_logout' %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger">Logout</button>
                 </form>
 
+            </div>
+            <div class="col-md-6">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Package Name</th>
+                        <th>Price</th>
+                        <th>Booking Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for booking in bookingData %}
+                        <tr>
+                            <td>{{ booking.package_id }}</td>
+                            <td>{{ booking.package_id.price }}</td>
+                            <td>
+                                {{ booking.booking_date }}
+                            </td>
+                            <td>
+                                <button>Cancel</button>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
 
             </div>
         </div>

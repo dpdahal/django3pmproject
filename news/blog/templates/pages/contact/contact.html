@@ -29,10 +29,10 @@
                         <div class="alert">{{ message }}</div>
                     {% endfor %}
                 {% endif %}
-                <form action="" method="post">
+                <form action="" id="myForm" method="post">
                     {% csrf_token %}
                     {{ contactForm|crispy }}
-                    <button class="btn btn-success">Send</button>
+                    <button class="btn btn-success" id="contactData">Send</button>
                 </form>
             </div>
         </section><!-- End Contact Section -->

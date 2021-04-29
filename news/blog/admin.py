@@ -31,3 +31,18 @@ class BlogAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class AdminContact(admin.ModelAdmin):
     list_display = ['full_name', 'email', 'subject', 'message']
+
+
+admin.site.register(Student)
+
+admin.site.register(About)
+
+
+@admin.register(Package)
+class PackageAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+
+@admin.register(Booking)
+class AdminBooking(admin.ModelAdmin):
+    list_display = ['package_id', 'user_id', 'booking_date', 'status']

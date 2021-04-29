@@ -2,6 +2,19 @@
 
 {% block content %}
     <div class="container">
-        <h1>About</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ aboutData.title }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            {{ aboutData.description |safe }}
+        </div>
+        <div class="col-md-4">
+            <img src="{{ aboutData.image.url }}" alt="" class="img-fluid">
+        </div>
+    </div>
+
     </div>
 {% endblock content %}

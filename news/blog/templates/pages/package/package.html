@@ -1,0 +1,36 @@
+{% extends 'master/master.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+                <select name="" id="">
+                    <option value="">Kathmandu</option>
+                </select>
+            </div>
+            <div class="col-md-9">
+                {% for package in packageData %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{{ package.image.url }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="col-md-7">
+                            <h1><a href="">{{ package.title }}</a></h1>
+                            <p>
+                                {{ package.description|safe }}
+                            </p>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="">Price: {{ package.price }}</a>
+
+                            <a href="{% url 'booking' package.id %}">Booking</a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

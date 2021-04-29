@@ -25,3 +25,5 @@ urlpatterns = [
 
 admin.site.site_header = 'Django3pm Project'
 admin.site.site_title = 'Django3pm'
+
+handler404 = "blog.views.page_not_found"

@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
@@ -6,38 +8,88 @@ from django.contrib import messages
 from .models import *
 from blog.froms import ContactFrom
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+
+from django.views import generic
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # Create your views here.
 
+class StudentViews(generic.ListView):
+    template_name = 'students/student.html'
+    model = Student
+    context_object_name = 'studentData'
+
+
+class StudentAdd(generic.CreateView):
+    template_name = 'students/add-student.html'
+    model = Student
+    fields = '__all__'
+
+
+class StudentDelete(generic.DeleteView):
+    template_name = 'students/delete-student.html'
+    model = Student
+    success_url = '/student'
+
+
+class StudentEdit(generic.UpdateView):
+    template_name = 'students/edit-student.html'
+    model = Student
+    success_url = '/student'
+    fields = '__all__'
+
+
 def index(request):
     data = {
-        'sliderData': Slider.objects.all()
+        'sliderData': Slider.objects.all(),
+
     }
     return render(request, 'pages/index/index.html', data)
 
 
 def about(request):
-    return render(request, 'pages/about/about.html')
+    data = {
+        'aboutData': About.objects.first()
+    }
+    return render(request, 'pages/about/about.html', data)
 
 
+def get_package(request):
+    data = {
+        'packageData': Package.objects.all()
+    }
+    return render(request, 'pages/package/package.html', data)
+
+
+def package_details(request, id):
+    data = {
+        'packageDetails': Package.objects.get(id=id)
+    }
+    return render(request, 'pages/package/package-details.html', data)
+
+
+@csrf_exempt
 def contact(request):
     if request.method == "POST":
-        obj = ContactFrom(request.POST)
-        full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        if obj.is_valid():
-            obj.save()
+        fm = ContactFrom(request.POST)
+        if fm.is_valid():
+            fm.save()
+            name = request.POST.get('full_name')
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
             send_mail(subject, message, email, ['laravel3pm@gmail.com'])
-            messages.success(request, 'Success')
-            return redirect('contact')
-        else:
             data = {
-                'contactForm': obj
+                'success': "Contact was successfully send",
+                'status': 200
             }
-            return render(request, 'pages/contact/contact.html', data)
+            return JsonResponse(data)
+
+
     else:
         data = {
             'contactForm': ContactFrom()
@@ -109,10 +161,38 @@ def user_login(request):
 
 @login_required(login_url='login')
 def users(request):
-    return render(request, 'users/users.html')
+    user_id = request.user.id
+    data = {
+        'bookingData': Booking.objects.filter(user_id=user_id).select_related('package_id')
+
+    }
+    return render(request, 'users/users.html', data)
 
 
 def users_logout(request):
     if request.method == "POST":
         logout(request)
+        return redirect('login')
+
+
+def page_not_found(request, exception):
+    return render(request, 'errors/404.html')
+
+
+def book(request, package_id):
+    if request.user.is_authenticated:
+        uId = request.user.id
+        user = User.objects.get(id=uId)
+        package = Package.objects.get(id=package_id)
+        obj = Booking.objects.create(
+            booking_date=timezone.now(),
+            package_id=package,
+            user_id=user
+        )
+        obj.save()
+
+        messages.success(request, 'Booking successfully created')
+        return redirect('users')
+
+    else:
         return redirect('login')
