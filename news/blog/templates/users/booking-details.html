@@ -1,0 +1,36 @@
+
+
+{% extends 'master/master.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1><a href="">{{ packageData.title }}</a></h1>
+                        <p>
+                            {{ packageData.description|safe }}
+                        </p>
+
+                    </div>
+                    <div class="col-md-4">
+                        <section>
+                            <div class="product">
+                                <div class="description">
+                                    <h3>Stripe Payment</h3>
+                                    <h5>$ {{ packageData.get_price }}</h5>
+                                    <input type="hidden" id="package_id" value="{{ packageData.id }}">
+                                </div>
+
+                            </div>
+                            <button type="button" id="checkout-button">Checkout</button>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

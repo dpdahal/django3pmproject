@@ -37,4 +37,9 @@ urlpatterns = [
 
     path('booking/<package_id>', views.book, name='booking'),
 
+    path('get_booking_details/<id>', views.get_booking_details, name='get_booking_details'),
+    path('create-checkout-session/<id>', views.CreateCheckoutSession.as_view(), name='create-checkout-session'),
+    path('success', views.SuccessPayment.as_view(), name='success'),
+    path('cancel', views.CancelPayment.as_view(), name='cancel'),
+
 ]

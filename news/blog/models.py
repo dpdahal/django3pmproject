@@ -100,6 +100,9 @@ class Package(models.Model):
     def __str__(self):
         return self.title
 
+    def get_price(self):
+        return "{0:.2f}".format(self.price / 100)
+
 
 class Booking(models.Model):
     booking_date = models.DateField()
