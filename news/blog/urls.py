@@ -41,5 +41,13 @@ urlpatterns = [
     path('create-checkout-session/<id>', views.CreateCheckoutSession.as_view(), name='create-checkout-session'),
     path('success', views.SuccessPayment.as_view(), name='success'),
     path('cancel', views.CancelPayment.as_view(), name='cancel'),
+    path('gallery', views.gallery, name='gallery'),
+
+    path('employee', views.employee, name='employee'),
+    path('employee-get', views.employee_get, name='employee-get'),
+    path('employee-insert', views.employee_insert, name='employee-insert'),
+    path('employee-delete/<id>', views.employee_delete, name='employee-delete'),
+    path('employee-edit/<id>', views.employee_edit, name='employee-edit'),
+    path('employee-update/<id>', views.employee_update, name='employee-update'),
 
 ]

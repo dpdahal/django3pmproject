@@ -19,7 +19,7 @@ from django.views.generic.base import TemplateView
 
 import stripe
 
-stripe.api_key = ''
+stripe.api_key = 'sk_test_51ImbDgDvtMiGwf3TRCaAxlm7SDSysk9ExVhyE9RWjWWxCJfsq2O0BtWmJ7fTdI1VyOwjaA35sPfXY4WYZe8F2OxU00TDgVO8pO'
 
 
 # Create your views here.
@@ -244,3 +244,69 @@ class SuccessPayment(TemplateView):
 
 class CancelPayment(TemplateView):
     template_name = 'users/cancel.html'
+
+
+def gallery(request):
+    return render(request, 'pages/gallery/gallery.html')
+
+
+def employee(request):
+    return render(request, 'pages/employee/index.html')
+
+
+def employee_get(request):
+    obj = list(Employee.objects.all().values())
+    data = dict()
+    data['employeeData'] = obj
+    return JsonResponse(data)
+
+
+def employee_insert(request):
+    if request.method == "POST":
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        obj = Employee.objects.create(
+            full_name=full_name, email=email, phone=phone, address=address)
+        obj.save()
+        data = {
+            'success': 'Employee was successfully created'
+        }
+        return JsonResponse(data)
+    else:
+        return redirect('employee')
+
+
+def employee_delete(request, id):
+    obj = Employee.objects.get(id=id)
+    obj.delete()
+    data = {
+        'success': 'Employee was successfully deleted'
+    }
+    return JsonResponse(data)
+
+
+def employee_edit(request, id):
+    obj = Employee.objects.get(id=id)
+    data = {
+        "id": obj.id,
+        "full_name": obj.full_name,
+        "email": obj.email,
+        "phone": obj.phone,
+        "address": obj.address,
+    }
+    return JsonResponse(data)
+
+
+def employee_update(request, id):
+    obj = Employee.objects.get(id=id)
+    obj.full_name = request.POST.get('full_name')
+    obj.email = request.POST.get('email')
+    obj.phone = request.POST.get('phone')
+    obj.address = request.POST.get('address')
+    obj.save()
+    data = {
+        'success': 'Employee was successfully updated'
+    }
+    return JsonResponse(data)

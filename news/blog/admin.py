@@ -46,3 +46,6 @@ class PackageAdmin(admin.ModelAdmin):
 @admin.register(Booking)
 class AdminBooking(admin.ModelAdmin):
     list_display = ['package_id', 'user_id', 'booking_date', 'status']
+
+
+admin.site.register(Employee)
